@@ -1,14 +1,8 @@
 export default function Home() {
   return (
     <div className="flex min-h-screen flex-col items-center px-4 py-16">
-      <pre className="text-2xl leading-tight font-mono select-none" aria-label="Claude Code mascot">
-        {`
-    /\\_/\\
-   ( o.o )
-    > ^ <
-   /|   |\\
-  (_|   |_)
-        `}
+      <pre className="text-6xl leading-tight font-mono select-none" aria-label="Claude Code mascot">
+        {`▐▛███▜▌\n▜█████▛▘\n ▘▘ ▝▝`}
       </pre>
       <h1 className="mt-4 text-4xl font-bold">Claude Code</h1>
       <p className="mt-2 text-lg text-gray-500">Your AI-powered coding companion</p>
