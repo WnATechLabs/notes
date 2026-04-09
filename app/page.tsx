@@ -1,9 +1,25 @@
 export default function Home() {
   return (
     <div className="flex min-h-screen flex-col items-center px-4 py-16">
-      <pre className="text-6xl leading-tight font-mono select-none" aria-label="Claude Code mascot">
-        {`▐▛███▜▌\n▜█████▛▘\n ▘▘ ▝▝`}
-      </pre>
+      <svg
+        width="120"
+        height="120"
+        viewBox="0 0 7 5"
+        aria-label="Claude Code mascot"
+        className="select-none"
+      >
+        {/* Ears */}
+        <rect x="0" y="0" width="1" height="2" fill="currentColor" />
+        <rect x="6" y="0" width="1" height="2" fill="currentColor" />
+        {/* Head */}
+        <rect x="1" y="0" width="5" height="3" fill="currentColor" />
+        {/* Eyes */}
+        <rect x="2" y="1" width="1" height="1" fill="var(--background)" />
+        <rect x="4" y="1" width="1" height="1" fill="var(--background)" />
+        {/* Feet */}
+        <rect x="1" y="3" width="2" height="1" fill="currentColor" />
+        <rect x="4" y="3" width="2" height="1" fill="currentColor" />
+      </svg>
       <h1 className="mt-4 text-4xl font-bold">Claude Code</h1>
       <p className="mt-2 text-lg text-gray-500">Your AI-powered coding companion</p>
 
