@@ -2,6 +2,8 @@
 
 We're building the app described in the spec (SPEC.md). Read the file for general architectural tasks or to doble-check the exact database structure tech stack or application architecture.
 
+Keep your replies extremely concise and focus on conveying the key information. No unnecessary fluff, no long code snippts.
+
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## Commands
