@@ -1,4 +1,5 @@
 import Link from "next/link";
+import LogoutButton from "./logout-button";
 
 const mockNotes = [
   { id: "1", title: "Project Ideas", preview: "A collection of startup ideas and side projects to explore...", date: "Apr 7" },
@@ -46,13 +47,15 @@ export default function DashboardPage() {
           ))}
         </div>
 
-        <div className="mt-8 text-center">
+        <div className="mt-8 flex items-center justify-center gap-4">
           <Link
             href="/"
             className="text-sm text-foreground/40 hover:text-foreground/70 transition-colors"
           >
             &larr; Back to home
           </Link>
+          <span className="text-foreground/20">|</span>
+          <LogoutButton />
         </div>
       </div>
     </div>
