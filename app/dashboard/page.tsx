@@ -2,16 +2,15 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { auth } from "@/lib/auth";
+import { getNotesByUserId, extractTitle, extractPreview } from "@/lib/notes";
 import LogoutButton from "./logout-button";
 
-const mockNotes = [
-  { id: "1", title: "Project Ideas", preview: "A collection of startup ideas and side projects to explore...", date: "Apr 7" },
-  { id: "2", title: "Meeting Notes", preview: "Weekly sync: discussed roadmap priorities and Q2 goals...", date: "Apr 5" },
-  { id: "3", title: "Reading List", preview: "Books and articles to read: Designing Data-Intensive Apps...", date: "Apr 3" },
-  { id: "4", title: "Recipe Collection", preview: "Homemade pasta dough: 2 cups flour, 3 eggs, pinch of salt...", date: "Mar 30" },
-  { id: "5", title: "Travel Plans", preview: "Tokyo itinerary: Day 1 — Shibuya, Harajuku, Meiji Shrine...", date: "Mar 28" },
-  { id: "6", title: "Code Snippets", preview: "Useful TypeScript utility types and helper functions...", date: "Mar 25" },
-];
+function formatDate(unixSeconds: number): string {
+  return new Date(unixSeconds * 1000).toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+  });
+}
 
 export default async function DashboardPage() {
   const session = await auth.api.getSession({
@@ -22,6 +21,8 @@ export default async function DashboardPage() {
     redirect("/auth");
   }
 
+  const notes = getNotesByUserId(session.user.id);
+
   return (
     <div className="min-h-screen px-4 py-12">
       <div className="mx-auto max-w-4xl">
@@ -29,7 +30,7 @@ export default async function DashboardPage() {
           <div>
             <h1 className="text-3xl font-bold">Your Notes</h1>
             <p className="mt-1 text-foreground/60">
-              {mockNotes.length} notes
+              {notes.length} {notes.length === 1 ? "note" : "notes"}
             </p>
           </div>
           <Link
@@ -40,23 +41,34 @@ export default async function DashboardPage() {
           </Link>
         </div>
 
-        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {mockNotes.map((note) => (
-            <Link
-              key={note.id}
-              href={`/notes/${note.id}`}
-              className="group rounded-xl border border-foreground/10 p-5 hover:border-foreground/25 hover:bg-foreground/[0.02] transition-all"
-            >
-              <h2 className="font-semibold group-hover:underline">
-                {note.title}
-              </h2>
-              <p className="mt-2 text-sm text-foreground/50 line-clamp-2">
-                {note.preview}
-              </p>
-              <p className="mt-3 text-xs text-foreground/35">{note.date}</p>
-            </Link>
-          ))}
-        </div>
+        {notes.length === 0 ? (
+          <div className="mt-16 text-center text-foreground/40">
+            <p className="text-lg">No notes yet</p>
+            <p className="mt-1 text-sm">
+              Create your first note to get started.
+            </p>
+          </div>
+        ) : (
+          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {notes.map((note) => (
+              <Link
+                key={note.id}
+                href={`/notes/${note.id}`}
+                className="group rounded-xl border border-foreground/10 p-5 hover:border-foreground/25 hover:bg-foreground/[0.02] transition-all"
+              >
+                <h2 className="font-semibold group-hover:underline">
+                  {extractTitle(note.content)}
+                </h2>
+                <p className="mt-2 text-sm text-foreground/50 line-clamp-2">
+                  {extractPreview(note.content)}
+                </p>
+                <p className="mt-3 text-xs text-foreground/35">
+                  {formatDate(note.updatedAt)}
+                </p>
+              </Link>
+            ))}
+          </div>
+        )}
 
         <div className="mt-8 flex items-center justify-center gap-4">
           <Link
