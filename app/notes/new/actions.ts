@@ -1,0 +1,56 @@
+"use server";
+
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
+import { auth } from "@/lib/auth";
+import db from "@/lib/db";
+
+export type CreateNoteState = {
+  error?: string;
+};
+
+function isEmptyDoc(doc: { type: string; content?: Array<{ type: string; content?: unknown[] }> }): boolean {
+  if (!doc.content?.length) return true;
+  return doc.content.every(
+    (node) => node.type === "paragraph" && (!node.content || node.content.length === 0)
+  );
+}
+
+export async function createNote(
+  _prev: CreateNoteState,
+  formData: FormData
+): Promise<CreateNoteState> {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session) {
+    redirect("/auth");
+  }
+
+  const content = formData.get("content");
+
+  if (!content || typeof content !== "string" || !content.trim()) {
+    return { error: "Note content cannot be empty." };
+  }
+
+  try {
+    const doc = JSON.parse(content);
+    if (doc.type !== "doc" || isEmptyDoc(doc)) {
+      return { error: "Note content cannot be empty." };
+    }
+  } catch {
+    return { error: "Invalid note content." };
+  }
+
+  const id = crypto.randomUUID();
+
+  db.run(
+    "INSERT INTO notes (id, userId, content) VALUES (?, ?, ?)",
+    [id, session.user.id, content]
+  );
+
+  revalidatePath("/dashboard");
+  redirect(`/notes/${id}`);
+}
