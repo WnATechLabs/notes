@@ -1,6 +1,17 @@
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 import Link from "next/link";
+import { auth } from "@/lib/auth";
 
-export default function NoteEditorPage() {
+export default async function NoteEditorPage() {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session) {
+    redirect("/auth");
+  }
+
   return (
     <div className="min-h-screen px-4 py-8">
       <div className="mx-auto max-w-3xl">

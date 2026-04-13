@@ -1,4 +1,7 @@
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 import Link from "next/link";
+import { auth } from "@/lib/auth";
 import LogoutButton from "./logout-button";
 
 const mockNotes = [
@@ -10,7 +13,15 @@ const mockNotes = [
   { id: "6", title: "Code Snippets", preview: "Useful TypeScript utility types and helper functions...", date: "Mar 25" },
 ];
 
-export default function DashboardPage() {
+export default async function DashboardPage() {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session) {
+    redirect("/auth");
+  }
+
   return (
     <div className="min-h-screen px-4 py-12">
       <div className="mx-auto max-w-4xl">
