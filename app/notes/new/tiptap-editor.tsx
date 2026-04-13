@@ -104,6 +104,12 @@ export default function TiptapEditor() {
 
       <div className="mt-4 min-h-[60vh] rounded-xl border border-foreground/10 p-6">
         <EditorContent editor={editor} />
+        <div className="mt-4 space-y-3">
+          <div className="h-px bg-foreground/10" />
+          <p className="text-foreground/25 text-sm italic">
+            Auto-save enabled — your changes are saved as you type
+          </p>
+        </div>
       </div>
 
       <form id="new-note-form" action={formAction}>
