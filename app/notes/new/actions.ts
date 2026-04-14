@@ -57,5 +57,5 @@ export async function createNote(
   }
 
   revalidatePath("/dashboard");
-  redirect(`/notes/${id}`);
+  redirect(`/notes/edit/${id}`);
 }

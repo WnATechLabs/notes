@@ -6,7 +6,7 @@ import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
 import { createNote, type CreateNoteState } from "./new/actions";
-import { updateNote } from "./[noteId]/actions";
+import { updateNote } from "./edit/[noteId]/actions";
 
 type ToolbarItem = {
   label: string;

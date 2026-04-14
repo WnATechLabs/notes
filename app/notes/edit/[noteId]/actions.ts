@@ -45,6 +45,7 @@ export async function updateNote(
   );
 
   revalidatePath("/dashboard");
+  revalidatePath(`/notes/${noteId}`);
 
   return { savedAt: Date.now() };
 }
