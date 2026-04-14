@@ -46,10 +46,15 @@ export async function createNote(
 
   const id = crypto.randomUUID();
 
-  db.run(
-    "INSERT INTO notes (id, userId, content) VALUES (?, ?, ?)",
-    [id, session.user.id, content]
-  );
+  try {
+    db.run(
+      "INSERT INTO notes (id, userId, content) VALUES (?, ?, ?)",
+      [id, session.user.id, content]
+    );
+  } catch (error) {
+    console.error("Failed to create note:", error);
+    return { error: "Failed to create note. Please try again." };
+  }
 
   revalidatePath("/dashboard");
   redirect(`/notes/${id}`);
