@@ -4,6 +4,7 @@ import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { getNoteById, getUserById, extractTitle } from "@/lib/notes";
 import NoteContent from "./note-content";
+import TogglePublic from "./toggle-public";
 
 function formatDate(unixSeconds: number): string {
   return new Date(unixSeconds * 1000).toLocaleDateString("en-US", {
@@ -50,12 +51,15 @@ export default async function NoteViewPage({
           </Link>
           <div className="flex items-center gap-3">
             {isOwner && (
-              <Link
-                href={`/notes/edit/${note.id}`}
-                className="rounded-lg bg-foreground text-background px-4 py-1.5 text-sm font-medium hover:opacity-90 transition-opacity"
-              >
-                Edit
-              </Link>
+              <>
+                <TogglePublic noteId={note.id} isPublic={!!note.isPublic} />
+                <Link
+                  href={`/notes/edit/${note.id}`}
+                  className="rounded-lg bg-foreground text-background px-4 py-1.5 text-sm font-medium hover:opacity-90 transition-opacity"
+                >
+                  Edit
+                </Link>
+              </>
             )}
             {!isOwner && <span>Shared note</span>}
           </div>
