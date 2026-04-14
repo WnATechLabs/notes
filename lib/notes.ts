@@ -9,6 +9,16 @@ interface NoteRow {
   updatedAt: number;
 }
 
+interface UserRow {
+  id: string;
+  name: string;
+  email: string;
+}
+
+export function getUserById(userId: string): UserRow | null {
+  return db.query("SELECT id, name, email FROM user WHERE id = ?").get(userId) as UserRow | null;
+}
+
 export function getNoteById(noteId: string): NoteRow | null {
   return (
     db.query("SELECT * FROM notes WHERE id = ?").get(noteId) as NoteRow | null
