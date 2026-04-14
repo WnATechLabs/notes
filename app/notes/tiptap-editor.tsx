@@ -47,15 +47,20 @@ export default function TiptapEditor(props: Props) {
   const [saveStatus, setSaveStatus] = useState<"idle" | "saving" | "saved" | "error">("idle");
   const [saveError, setSaveError] = useState<string>();
   const timerRef = useRef<ReturnType<typeof setTimeout>>(null);
+  const saveVersionRef = useRef(0);
+
+  const noteId = isEdit ? props.noteId : null;
 
   const debouncedSave = useCallback(
     (content: string) => {
-      if (!isEdit) return;
+      if (!isEdit || !noteId) return;
       if (timerRef.current) clearTimeout(timerRef.current);
       timerRef.current = setTimeout(async () => {
+        const version = ++saveVersionRef.current;
         setSaveStatus("saving");
         setSaveError(undefined);
-        const result = await updateNote(props.noteId, content);
+        const result = await updateNote(noteId, content);
+        if (version !== saveVersionRef.current) return;
         if (result.error) {
           setSaveStatus("error");
           setSaveError(result.error);
@@ -168,12 +173,14 @@ export default function TiptapEditor(props: Props) {
 
       <div className="mt-4 min-h-[60vh] rounded-xl border border-foreground/10 p-6">
         <EditorContent editor={editor} />
-        <div className="mt-4 space-y-3">
-          <div className="h-px bg-foreground/10" />
-          <p className="text-foreground/25 text-sm italic">
-            Auto-save enabled — your changes are saved as you type
-          </p>
-        </div>
+        {isEdit && (
+          <div className="mt-4 space-y-3">
+            <div className="h-px bg-foreground/10" />
+            <p className="text-foreground/25 text-sm italic">
+              Auto-save enabled — your changes are saved as you type
+            </p>
+          </div>
+        )}
       </div>
 
       {!isEdit && (
