@@ -4,6 +4,7 @@ import { useRef, useCallback, useState, useActionState } from "react";
 import Link from "next/link";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
+import Underline from "@tiptap/extension-underline";
 import { createNote, type CreateNoteState } from "./new/actions";
 import { updateNote } from "./[noteId]/actions";
 
@@ -69,11 +70,14 @@ export default function TiptapEditor(props: Props) {
         }
       }, AUTOSAVE_DELAY);
     },
-    [isEdit, props.mode === "edit" ? props.noteId : null]
+    [isEdit, noteId]
   );
 
   const editor = useEditor({
-    extensions: [StarterKit.configure({ heading: { levels: [1, 2, 3] } })],
+    extensions: [
+      StarterKit.configure({ heading: { levels: [1, 2, 3] } }),
+      Underline,
+    ],
     content: isEdit ? JSON.parse(props.initialContent) : undefined,
     immediatelyRender: false,
     shouldRerenderOnTransaction: true,
