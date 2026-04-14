@@ -109,13 +109,14 @@ The database consists of the `better-auth` core tables and a custom `notes` tabl
 ### Public Routes
 
 - **`/` (Landing Page):** Brief explanation of the app and a Login/Signup button.
-- **`/auth/login` & `/auth/signup`:** Handled by `better-auth` views.
-- **`/share/[noteId]`:** Publicly accessible route. The server component fetches the note. If `isPublic === 0` and the current user is not the owner, it returns a 404.
+- **`/auth`:** Sign in / sign up form handled by `better-auth`.
+- **`/notes/[noteId]`:** Read-only note viewing page. If the current user is the owner, shows the note with an "Edit" button. If the note is public (`isPublic === 1`), anyone can view it. If the note is private and the viewer is not the owner, a styled 404 is shown.
 
 ### Protected Routes (Require Authentication)
 
 - **`/dashboard`:** Lists all notes belonging to the authenticated user. Includes a "Create New Note" button.
-- **`/notes/[noteId]`:** The editor view. Contains the TipTap client component initialized with the server-fetched `content`.
+- **`/notes/new`:** Create a new note using the TipTap editor. Redirects to the edit page after creation.
+- **`/notes/edit/[noteId]`:** The editor view. Contains the TipTap client component initialized with the server-fetched `content`. Only accessible by the note owner.
 
 ---
 
