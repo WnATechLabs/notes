@@ -9,6 +9,12 @@ interface NoteRow {
   updatedAt: number;
 }
 
+export function getNoteById(noteId: string): NoteRow | null {
+  return (
+    db.query("SELECT * FROM notes WHERE id = ?").get(noteId) as NoteRow | null
+  );
+}
+
 export function getNotesByUserId(userId: string): NoteRow[] {
   return db
     .query("SELECT * FROM notes WHERE userId = ? ORDER BY updatedAt DESC")
