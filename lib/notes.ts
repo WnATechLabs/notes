@@ -1,4 +1,4 @@
-import db from "@/lib/db";
+import db from '@/lib/db';
 
 interface NoteRow {
   id: string;
@@ -16,18 +16,16 @@ interface UserRow {
 }
 
 export function getUserById(userId: string): UserRow | null {
-  return db.query("SELECT id, name, email FROM user WHERE id = ?").get(userId) as UserRow | null;
+  return db.query('SELECT id, name, email FROM user WHERE id = ?').get(userId) as UserRow | null;
 }
 
 export function getNoteById(noteId: string): NoteRow | null {
-  return (
-    db.query("SELECT * FROM notes WHERE id = ?").get(noteId) as NoteRow | null
-  );
+  return db.query('SELECT * FROM notes WHERE id = ?').get(noteId) as NoteRow | null;
 }
 
 export function getNotesByUserId(userId: string): NoteRow[] {
   return db
-    .query("SELECT * FROM notes WHERE userId = ? ORDER BY updatedAt DESC")
+    .query('SELECT * FROM notes WHERE userId = ? ORDER BY updatedAt DESC')
     .all(userId) as NoteRow[];
 }
 
@@ -41,15 +39,15 @@ export function extractTitle(content: string): string {
     if (doc.content) {
       for (const node of doc.content) {
         const text = extractTextFromNode(node).trim();
-        if (text) return text.length > 60 ? text.slice(0, 60) + "..." : text;
+        if (text) return text.length > 60 ? text.slice(0, 60) + '...' : text;
       }
     }
   } catch {
     // not valid JSON — treat raw string as title
     const trimmed = content.trim();
-    if (trimmed) return trimmed.length > 60 ? trimmed.slice(0, 60) + "..." : trimmed;
+    if (trimmed) return trimmed.length > 60 ? trimmed.slice(0, 60) + '...' : trimmed;
   }
-  return "Untitled";
+  return 'Untitled';
 }
 
 /**
@@ -67,19 +65,19 @@ export function extractPreview(content: string): string {
           foundFirst = true;
           continue;
         }
-        return text.length > 120 ? text.slice(0, 120) + "..." : text;
+        return text.length > 120 ? text.slice(0, 120) + '...' : text;
       }
     }
   } catch {
     // no preview for non-JSON
   }
-  return "";
+  return '';
 }
 
 function extractTextFromNode(node: Record<string, unknown>): string {
-  if (node.type === "text" && typeof node.text === "string") return node.text;
+  if (node.type === 'text' && typeof node.text === 'string') return node.text;
   if (Array.isArray(node.content)) {
-    return node.content.map((n: Record<string, unknown>) => extractTextFromNode(n)).join("");
+    return node.content.map((n: Record<string, unknown>) => extractTextFromNode(n)).join('');
   }
-  return "";
+  return '';
 }

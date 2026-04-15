@@ -1,61 +1,65 @@
-"use server";
+'use server';
 
-import { headers } from "next/headers";
-import { redirect } from "next/navigation";
-import { revalidatePath } from "next/cache";
-import { auth } from "@/lib/auth";
-import db from "@/lib/db";
+import { headers } from 'next/headers';
+import { redirect } from 'next/navigation';
+import { revalidatePath } from 'next/cache';
+import { auth } from '@/lib/auth';
+import db from '@/lib/db';
 
 export type CreateNoteState = {
   error?: string;
 };
 
-function isEmptyDoc(doc: { type: string; content?: Array<{ type: string; content?: unknown[] }> }): boolean {
+function isEmptyDoc(doc: {
+  type: string;
+  content?: Array<{ type: string; content?: unknown[] }>;
+}): boolean {
   if (!doc.content?.length) return true;
   return doc.content.every(
-    (node) => node.type === "paragraph" && (!node.content || node.content.length === 0)
+    (node) => node.type === 'paragraph' && (!node.content || node.content.length === 0),
   );
 }
 
 export async function createNote(
   _prev: CreateNoteState,
-  formData: FormData
+  formData: FormData,
 ): Promise<CreateNoteState> {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
 
   if (!session) {
-    redirect("/auth");
+    redirect('/auth');
   }
 
-  const content = formData.get("content");
+  const content = formData.get('content');
 
-  if (!content || typeof content !== "string" || !content.trim()) {
-    return { error: "Note content cannot be empty." };
+  if (!content || typeof content !== 'string' || !content.trim()) {
+    return { error: 'Note content cannot be empty.' };
   }
 
   try {
     const doc = JSON.parse(content);
-    if (doc.type !== "doc" || isEmptyDoc(doc)) {
-      return { error: "Note content cannot be empty." };
+    if (doc.type !== 'doc' || isEmptyDoc(doc)) {
+      return { error: 'Note content cannot be empty.' };
     }
   } catch {
-    return { error: "Invalid note content." };
+    return { error: 'Invalid note content.' };
   }
 
   const id = crypto.randomUUID();
 
   try {
-    db.run(
-      "INSERT INTO notes (id, userId, content) VALUES (?, ?, ?)",
-      [id, session.user.id, content]
-    );
+    db.run('INSERT INTO notes (id, userId, content) VALUES (?, ?, ?)', [
+      id,
+      session.user.id,
+      content,
+    ]);
   } catch (error) {
-    console.error("Failed to create note:", error);
-    return { error: "Failed to create note. Please try again." };
+    console.error('Failed to create note:', error);
+    return { error: 'Failed to create note. Please try again.' };
   }
 
-  revalidatePath("/dashboard");
+  revalidatePath('/dashboard');
   redirect(`/notes/edit/${id}`);
 }

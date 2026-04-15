@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { useRouter } from "next/navigation";
-import { signOut } from "@/lib/auth-client";
+import { useRouter } from 'next/navigation';
+import { signOut } from '@/lib/auth-client';
 
 export default function LogoutButton() {
   const router = useRouter();
@@ -10,7 +10,7 @@ export default function LogoutButton() {
     await signOut({
       fetchOptions: {
         onSuccess: () => {
-          router.push("/");
+          router.push('/');
         },
       },
     });
@@ -19,7 +19,7 @@ export default function LogoutButton() {
   return (
     <button
       onClick={handleLogout}
-      className="text-sm text-foreground/50 hover:text-foreground/80 transition-colors cursor-pointer"
+      className='text-sm text-foreground/50 hover:text-foreground/80 transition-colors cursor-pointer'
     >
       Sign out
     </button>

@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { useTransition, useOptimistic } from "react";
-import { toggleNotePublic } from "./actions";
+import { useTransition, useOptimistic } from 'react';
+import { toggleNotePublic } from './actions';
 
 export default function TogglePublic({ noteId, isPublic }: { noteId: string; isPublic: boolean }) {
   const [isPending, startTransition] = useTransition();
@@ -18,9 +18,9 @@ export default function TogglePublic({ noteId, isPublic }: { noteId: string; isP
     <button
       onClick={handleToggle}
       disabled={isPending}
-      className="rounded-lg border border-foreground/10 px-4 py-1.5 text-sm font-medium hover:bg-foreground/5 transition-colors disabled:opacity-50"
+      className='rounded-lg border border-foreground/10 px-4 py-1.5 text-sm font-medium hover:bg-foreground/5 transition-colors disabled:opacity-50'
     >
-      {optimisticPublic ? "Public" : "Private"}
+      {optimisticPublic ? 'Public' : 'Private'}
     </button>
   );
 }

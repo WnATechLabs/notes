@@ -1,7 +1,7 @@
-import { headers } from "next/headers";
-import { redirect } from "next/navigation";
-import { auth } from "@/lib/auth";
-import AuthForm from "./auth-form";
+import { headers } from 'next/headers';
+import { redirect } from 'next/navigation';
+import { auth } from '@/lib/auth';
+import AuthForm from './auth-form';
 
 export default async function AuthPage() {
   const session = await auth.api.getSession({
@@ -9,7 +9,7 @@ export default async function AuthPage() {
   });
 
   if (session) {
-    redirect("/dashboard");
+    redirect('/dashboard');
   }
 
   return <AuthForm />;

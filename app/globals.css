@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 :root {
   --background: #ffffff;
@@ -91,7 +91,7 @@ body {
 }
 
 .tiptap p.is-editor-empty:first-child::before {
-  content: "Start writing your note...";
+  content: 'Start writing your note...';
   color: color-mix(in srgb, var(--foreground) 30%, transparent);
   float: left;
   height: 0;
