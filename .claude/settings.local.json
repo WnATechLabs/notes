@@ -30,5 +30,18 @@
   "sandbox": {
     "enabled": false,
     "autoAllowBashIfSandboxed": false
+  },
+  "hooks": {
+    "Notification": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "osascript -e 'display notification \"Waiting for user input\" with title \"Claude Code\" sound name \"any\"'"
+          }
+        ]
+      }
+    ]
   }
 }

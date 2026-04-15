@@ -6,6 +6,7 @@ import { getNoteById, getUserById, extractTitle } from '@/lib/notes';
 import NoteContent from './note-content';
 import TogglePublic from './toggle-public';
 import DeleteNote from './delete-note';
+import CopyLink from './copy-link';
 
 function formatDate(unixSeconds: number): string {
   return new Date(unixSeconds * 1000).toLocaleDateString('en-US', {
@@ -49,6 +50,7 @@ export default async function NoteViewPage({ params }: { params: Promise<{ noteI
           <div className='flex items-center gap-3'>
             {isOwner && (
               <>
+                <CopyLink />
                 <DeleteNote noteId={note.id} />
                 <TogglePublic noteId={note.id} isPublic={!!note.isPublic} />
                 <Link
@@ -59,7 +61,12 @@ export default async function NoteViewPage({ params }: { params: Promise<{ noteI
                 </Link>
               </>
             )}
-            {!isOwner && <span>Shared note</span>}
+            {!isOwner && (
+              <>
+                <span>Shared note</span>
+                <CopyLink />
+              </>
+            )}
           </div>
         </div>
 
