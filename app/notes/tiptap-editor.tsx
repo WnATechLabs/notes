@@ -175,8 +175,8 @@ export default function TiptapEditor(props: Props) {
         })}
       </div>
 
-      <div className="mt-4 min-h-[60vh] rounded-xl border border-foreground/10 p-6">
-        <EditorContent editor={editor} />
+      <div className="mt-4 min-h-[60vh] rounded-xl border border-foreground/10 p-6 flex flex-col">
+        <EditorContent editor={editor} className="flex-1 flex flex-col" />
         {isEdit && (
           <div className="mt-4 space-y-3">
             <div className="h-px bg-foreground/10" />

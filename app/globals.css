@@ -28,6 +28,8 @@ body {
 /* TipTap editor styles */
 .tiptap {
   outline: none;
+  flex: 1;
+  cursor: text;
 }
 
 .tiptap h1 {
