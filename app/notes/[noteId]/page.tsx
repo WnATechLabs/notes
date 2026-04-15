@@ -5,6 +5,7 @@ import { auth } from "@/lib/auth";
 import { getNoteById, getUserById, extractTitle } from "@/lib/notes";
 import NoteContent from "./note-content";
 import TogglePublic from "./toggle-public";
+import DeleteNote from "./delete-note";
 
 function formatDate(unixSeconds: number): string {
   return new Date(unixSeconds * 1000).toLocaleDateString("en-US", {
@@ -52,6 +53,7 @@ export default async function NoteViewPage({
           <div className="flex items-center gap-3">
             {isOwner && (
               <>
+                <DeleteNote noteId={note.id} />
                 <TogglePublic noteId={note.id} isPublic={!!note.isPublic} />
                 <Link
                   href={`/notes/edit/${note.id}`}
