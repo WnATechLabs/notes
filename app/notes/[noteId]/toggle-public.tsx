@@ -18,7 +18,11 @@ export default function TogglePublic({ noteId, isPublic }: { noteId: string; isP
     <button
       onClick={handleToggle}
       disabled={isPending}
-      className='rounded-lg border border-foreground/10 px-4 py-1.5 text-sm font-medium hover:bg-foreground/5 transition-colors disabled:opacity-50'
+      className={`rounded-lg border px-4 py-1.5 text-sm font-medium transition-colors disabled:opacity-50 ${
+        optimisticPublic
+          ? 'border-green-400/40 text-green-500 hover:bg-green-500/10'
+          : 'border-foreground/40 text-foreground hover:bg-foreground/10'
+      }`}
     >
       {optimisticPublic ? 'Public' : 'Private'}
     </button>

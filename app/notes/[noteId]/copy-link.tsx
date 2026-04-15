@@ -14,7 +14,7 @@ export default function CopyLink() {
   return (
     <button
       onClick={handleCopy}
-      className='rounded-lg border border-foreground/10 px-4 py-1.5 text-sm font-medium hover:bg-foreground/5 transition-colors'
+      className='rounded-lg border border-foreground/40 px-4 py-1.5 text-sm font-medium text-foreground hover:bg-foreground/10 transition-colors'
     >
       {copied ? 'Copied!' : 'Copy link'}
     </button>

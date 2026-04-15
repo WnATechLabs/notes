@@ -43,8 +43,8 @@ export default async function NoteViewPage({ params }: { params: Promise<{ noteI
             {isOwner && (
               <>
                 <CopyLink />
-                <DeleteNote noteId={note.id} />
                 <TogglePublic noteId={note.id} isPublic={!!note.isPublic} />
+                <DeleteNote noteId={note.id} />
                 <Link
                   href={`/notes/edit/${note.id}`}
                   className='rounded-lg bg-foreground text-background px-4 py-1.5 text-sm font-medium hover:opacity-90 transition-opacity'
