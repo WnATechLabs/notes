@@ -2,15 +2,8 @@ import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { auth } from '@/lib/auth';
-import { getNotesByUserId, extractTitle, extractPreview } from '@/lib/notes';
+import { getNotesByUserId, extractTitle, extractPreview, formatDate } from '@/lib/notes';
 import LogoutButton from './logout-button';
-
-function formatDate(unixSeconds: number): string {
-  return new Date(unixSeconds * 1000).toLocaleDateString('en-US', {
-    month: 'short',
-    day: 'numeric',
-  });
-}
 
 export default async function DashboardPage() {
   const session = await auth.api.getSession({
@@ -60,7 +53,7 @@ export default async function DashboardPage() {
                 <p className='mt-2 text-sm text-foreground/50 line-clamp-2'>
                   {extractPreview(note.content)}
                 </p>
-                <p className='mt-3 text-xs text-foreground/35'>{formatDate(note.updatedAt)}</p>
+                <p className='mt-3 text-xs text-foreground/35'>{formatDate(note.updatedAt, { month: 'short', day: 'numeric' })}</p>
               </Link>
             ))}
           </div>

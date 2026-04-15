@@ -74,6 +74,29 @@ export function extractPreview(content: string): string {
   return '';
 }
 
+/**
+ * Check whether a TipTap doc is empty (no content or only empty paragraphs).
+ */
+export function isEmptyDoc(doc: {
+  type: string;
+  content?: Array<{ type: string; content?: unknown[] }>;
+}): boolean {
+  if (!doc.content?.length) return true;
+  return doc.content.every(
+    (node) => node.type === 'paragraph' && (!node.content || node.content.length === 0),
+  );
+}
+
+/**
+ * Format a Unix timestamp (seconds) into a human-readable date string.
+ */
+export function formatDate(
+  unixSeconds: number,
+  options: Intl.DateTimeFormatOptions = { month: 'short', day: 'numeric', year: 'numeric' },
+): string {
+  return new Date(unixSeconds * 1000).toLocaleDateString('en-US', options);
+}
+
 function extractTextFromNode(node: Record<string, unknown>): string {
   if (node.type === 'text' && typeof node.text === 'string') return node.text;
   if (Array.isArray(node.content)) {

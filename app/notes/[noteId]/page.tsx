@@ -2,19 +2,11 @@ import { headers } from 'next/headers';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { auth } from '@/lib/auth';
-import { getNoteById, getUserById, extractTitle } from '@/lib/notes';
+import { getNoteById, getUserById, extractTitle, formatDate } from '@/lib/notes';
 import NoteContent from './note-content';
 import TogglePublic from './toggle-public';
 import DeleteNote from './delete-note';
 import CopyLink from './copy-link';
-
-function formatDate(unixSeconds: number): string {
-  return new Date(unixSeconds * 1000).toLocaleDateString('en-US', {
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric',
-  });
-}
 
 export default async function NoteViewPage({ params }: { params: Promise<{ noteId: string }> }) {
   const { noteId } = await params;
