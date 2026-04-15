@@ -4,21 +4,12 @@ import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
 import { auth } from '@/lib/auth';
+import { isEmptyDoc } from '@/lib/notes';
 import db from '@/lib/db';
 
 export type CreateNoteState = {
   error?: string;
 };
-
-function isEmptyDoc(doc: {
-  type: string;
-  content?: Array<{ type: string; content?: unknown[] }>;
-}): boolean {
-  if (!doc.content?.length) return true;
-  return doc.content.every(
-    (node) => node.type === 'paragraph' && (!node.content || node.content.length === 0),
-  );
-}
 
 export async function createNote(
   _prev: CreateNoteState,
