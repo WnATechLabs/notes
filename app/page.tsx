@@ -27,18 +27,12 @@ export default function Home() {
         instant save, and one-click sharing.
       </p>
 
-      <div className="mt-8 flex gap-3">
+      <div className="mt-8">
         <Link
           href="/auth"
           className="h-11 px-6 rounded-lg bg-foreground text-background flex items-center font-medium text-sm hover:opacity-90 transition-opacity"
         >
           Get Started
-        </Link>
-        <Link
-          href="/dashboard"
-          className="h-11 px-6 rounded-lg border border-foreground/15 flex items-center font-medium text-sm text-foreground/70 hover:border-foreground/30 transition-colors"
-        >
-          View Demo
         </Link>
       </div>
 
