@@ -5,9 +5,10 @@ export default function NoteNotFound() {
     <div className="min-h-screen px-4 py-12">
       <div className="mx-auto max-w-2xl text-center">
         <p className="text-6xl font-bold text-foreground/20">404</p>
-        <h1 className="mt-4 text-2xl font-bold">Note not found</h1>
+        <h1 className="mt-4 text-2xl font-bold">Page not found</h1>
         <p className="mt-3 text-foreground/50">
-          This note doesn&apos;t exist or is not publicly available.
+          The page you&apos;re looking for doesn&apos;t exist or is not
+          available.
         </p>
         <Link
           href="/"
