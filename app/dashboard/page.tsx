@@ -3,7 +3,6 @@ import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { auth } from '@/lib/auth';
 import { getNotesByUserId, extractTitle, extractPreview, formatDate } from '@/lib/notes';
-import LogoutButton from './logout-button';
 
 export default async function DashboardPage() {
   const session = await auth.api.getSession({
@@ -59,15 +58,13 @@ export default async function DashboardPage() {
           </div>
         )}
 
-        <div className='mt-8 flex items-center justify-center gap-4'>
+        <div className='mt-8 flex items-center justify-center'>
           <Link
             href='/'
             className='text-sm text-foreground/40 hover:text-foreground/70 transition-colors'
           >
             &larr; Back to home
           </Link>
-          <span className='text-foreground/20'>|</span>
-          <LogoutButton />
         </div>
       </div>
     </div>
